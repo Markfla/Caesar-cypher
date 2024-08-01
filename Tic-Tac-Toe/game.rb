@@ -1,4 +1,8 @@
-require_relative 'board.rb'
+# The Game class represents the game logic for the game Tic-Tac-Toe
+
+# frozen_string_literal: true
+
+require_relative 'board'
 
 class Game
   def initialize(player1, player2)
@@ -15,21 +19,21 @@ class Game
       @board.draw_board
       puts "#{@current_player}, it's your turn."
       make_move
-      
+
       @game_over = check_game_over
 
       swap_player unless @game_over
     end
-    puts "Game over!"
+    puts 'Game over!'
   end
 
   def make_move
-    puts "Enter position (0-8): "
+    puts 'Enter position (0-8): '
     position = gets.chomp.to_i
     if @board.valid_move?(position)
       @board.update_position(position, current_marker)
     else
-      puts "Invalid move, try again."
+      puts 'Invalid move, try again.'
       make_move
     end
   end

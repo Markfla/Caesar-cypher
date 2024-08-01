@@ -1,4 +1,6 @@
-require_relative 'game.rb'
+# frozen_string_literal: true
+
+require_relative 'game'
 
 puts "\nTic-Tac-Toe Game Init"
 
