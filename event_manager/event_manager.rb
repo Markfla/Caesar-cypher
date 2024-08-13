@@ -59,7 +59,9 @@ template_letter = File.read('form_letter.erb')
 erb_template = ERB.new template_letter
 
 hourly_counts = Hash.new(0)
+day_counts = Hash.new(0)
 peak_hours = 0
+peak_days = 0
 
 contents.each do |row|
   id = row[0]
@@ -76,11 +78,15 @@ contents.each do |row|
 
   registration_time = DateTime.strptime(row[:regdate], '%m/%d/%Y %H:%M')
   hour = registration_time.hour
+  day = registration_time.day
 
   hourly_counts[hour] += 1
   peak_hours = hourly_counts.select { |hour, count| count == hourly_counts.values.max }
+  day_counts[day] += 1
+  peak_days = day_counts.select { |day, count| count == day_counts.values.max }
 end
 
-puts "peak hours => " + peak_hours
+puts "peak hours => " + peak_hours.to_s
+puts "peak days => " + peak_days.to_s
 
 
