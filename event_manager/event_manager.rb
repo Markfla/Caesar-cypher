@@ -1,5 +1,6 @@
-require 'csv'
 require 'google/apis/civicinfo_v2'
+require 'csv'
+require 'date'
 require 'erb'
 
 def clean_zipcode(zipcode)
@@ -59,9 +60,7 @@ template_letter = File.read('form_letter.erb')
 erb_template = ERB.new template_letter
 
 hourly_counts = Hash.new(0)
-day_counts = Hash.new(0)
-peak_hours = 0
-peak_days = 0
+day_of_week_counts = Hash.new(0)
 
 contents.each do |row|
   id = row[0]
@@ -77,16 +76,16 @@ contents.each do |row|
   save_thank_you_letter(id, form_letter)
 
   registration_time = DateTime.strptime(row[:regdate], '%m/%d/%Y %H:%M')
+
   hour = registration_time.hour
-  day = registration_time.day
+  day_of_week = registration_time.strftime('%A')  # Full name of the day of the week
 
   hourly_counts[hour] += 1
-  peak_hours = hourly_counts.select { |hour, count| count == hourly_counts.values.max }
-  day_counts[day] += 1
-  peak_days = day_counts.select { |day, count| count == day_counts.values.max }
+  day_of_week_counts[day_of_week] += 1
 end
 
-puts "peak hours => " + peak_hours.to_s
-puts "peak days => " + peak_days.to_s
+peak_hours = hourly_counts.max_by { |hour, count| count }
+peak_days = day_of_week_counts.max_by { |day, count| count }
 
-
+puts "Peak hours: #{peak_hours.inspect}"
+puts "Peak days: #{peak_days.inspect}"
