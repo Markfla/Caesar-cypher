@@ -10,4 +10,15 @@ def fibs(num)
   return arr
 end
 
-p fibs(8)
+# Technically incorrect implementation as [0,1] is returned for 
+# fibs_rec(0) but fuck overcomplicating for that
+def fibs_rec(num, arr = [0, 1])
+  if arr.length >= num
+    return arr[0...num]
+  else
+    arr << arr[-1] + arr[-2] 
+    return fibs_rec(num, arr)  
+  end
+end
+
+p fibs_rec(8)
