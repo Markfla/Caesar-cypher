@@ -1,8 +1,19 @@
 class LinkedList
     
+    def initialize
+        @head = nil
+    end
+
     # adds a new node containing value to the end of the list
     def append(value)
-        ## do thing
+        new_node = Node.new(value)
+        if @head.nil?
+            @head = new_node
+        else
+            current = @head
+            current = current.next_node until current.next_node.nil?
+            current.next_node = new_node
+        end
     end
 
     # adds a new node containing value to the start of the list
